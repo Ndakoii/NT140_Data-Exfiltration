@@ -1,56 +1,66 @@
-# Mau ghi nhan ket qua va phat hien
+# Mẫu ghi nhận kết quả và phát hiện
 
-> Day la mau trong cho cac giai doan sau. Hien chua co thi nghiem nao duoc chay va chua co ket qua thuc nghiem. Dia chi mang trong tai lieu du an la de xuat, khong phai xac nhan cau hinh thuc te.
+> Đây là mẫu trống cho các giai đoạn sau. Hiện chưa có thí nghiệm nào được chạy và chưa có kết quả thực nghiệm. Không điền hoặc trình bày số liệu nếu chưa có bằng chứng. Địa chỉ mạng trong tài liệu dự án là đề xuất, không phải xác nhận cấu hình thực tế.
 
-## Tom tat
+## Tóm tắt
 
-- Ma/phien thi nghiem:
-- Ngay gio:
-- Nguoi thuc hien:
-- Giao thuc / kich ban:
-- Ket qua chinh:
-- Han che:
+- Mã/phiên thí nghiệm:
+- Ngày giờ:
+- Người thực hiện:
+- Phương thức/kịch bản (HTTP POST, DNS Tunneling hoặc FTP Upload):
+- Kết quả chính (chỉ điền khi đã có bằng chứng):
+- Hạn chế:
 
-## Moi truong va dieu kien
+## Môi trường và điều kiện
 
-| Truong | Gia tri |
+| Trường | Giá trị |
 |---|---|
-| Phien ban VirtualBox / OS VM | |
-| Client, server va IP thuc te da xac nhan | |
-| Mang lab va route da kiem tra | |
-| Phien ban cong cu | |
-| Tham so / firewall / DNS filter | |
-| Bo du lieu tong hop, kich thuoc va hash (neu co) | |
-| So lan lap / thoi luong | |
-| Vi tri capture va filter | |
+| Phiên bản VirtualBox / OS VM | |
+| Máy gửi, máy nhận và IP thực tế đã xác nhận | |
+| Mạng lab và route hai chiều đã kiểm tra | |
+| Phiên bản công cụ | |
+| Tham số / firewall / DNS filter | |
+| Bộ dữ liệu tổng hợp, kích thước và hash (nếu có) | |
+| Số lần lặp / thời lượng | |
+| Vị trí capture, interface và filter | |
 
-## Ket qua dinh luong
+## Kết quả định lượng
 
-| Lan | Request/truy van | Packet | Byte | Thoi gian (s) | Thong luong (don vi/cach tinh) | Ghi chu |
-|---:|---:|---:|---:|---:|---|---|
-| 1 | | | | | | |
-| 2 | | | | | | |
-| 3 | | | | | | |
+| Lần | Request / query / upload | Packet | Flow/kết nối | Application payload bytes | Captured network bytes | Thời gian đo (s) | Payload throughput (B/s hoặc bit/s) | Network throughput (B/s hoặc bit/s) | Frequency (sự kiện/s hoặc phút) |
+|---:|---:|---:|---:|---:|---:|---:|---|---|---|
+| 1 | | | | | | | | | |
+| 2 | | | | | | | | | |
+| 3 | | | | | | | | | |
 
-## Phat hien
+Application payload bytes phải được xác định theo dữ liệu ứng dụng và/hoặc log phía server nhận; captured network bytes là tổng byte packet/frame trong capture đã chọn. Ghi rõ chiều traffic, khoảng thời gian, cách tính throughput/frequency và định nghĩa flow theo [phương pháp thực nghiệm](../docs/methodology.md). Không coi hai loại byte hoặc throughput là cùng một chỉ số.
 
-- Quan sat duoc:
-- So sanh voi baseline:
-- Ket qua firewall/loc DNS:
-- Loi hoac packet bi mat:
-- Dien giai va muc do chac chan:
+## Phát hiện và observability
+
+- Nhận diện giao thức:
+- Xác định nguồn/đích và chiều traffic:
+- Dấu hiệu truyền dữ liệu quan sát được:
+- Dấu hiệu bất thường so với baseline:
+- So sánh với baseline:
+- Lỗi hoặc packet bị mất:
+- Diễn giải và mức độ chắc chắn:
+
+## Kết quả phòng thủ
+
+- Biện pháp (firewall / DNS filtering):
+- Bằng chứng và cấu hình trước khi áp dụng:
+- Bằng chứng và cấu hình sau khi áp dụng:
+- Kết quả phía client/server trước và sau:
 
 ## Artifact
 
-- PCAP (duong dan noi bo, khong commit neu lon/nhay cam):
-- Log tcpdump/Wireshark/Zeek:
-- Bang va bieu do:
-- Cau hinh da dung:
+- PCAP (đường dẫn nội bộ, không commit nếu lớn/nhạy cảm):
+- Log tcpdump/Wireshark/Zeek và log dịch vụ nhận:
+- Bảng và biểu đồ:
+- Cấu hình đã dùng:
 
-## Han che va kha nang lap lai
+## Hạn chế và khả năng lặp lại
 
-- Yeu to chua kiem soat:
-- Sai so / nguy co dien giai sai:
-- Cac buoc can lap lai:
-- Danh sach xac nhan an toan mang lab:
-
+- Yếu tố chưa kiểm soát:
+- Sai số / nguy cơ diễn giải sai:
+- Các bước cần lặp lại:
+- Danh sách xác nhận an toàn mạng lab:

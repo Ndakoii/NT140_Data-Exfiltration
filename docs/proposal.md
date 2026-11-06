@@ -8,15 +8,15 @@
 
 Data Exfiltration qua Network là hành vi đưa dữ liệu từ một hệ thống ra khỏi phạm vi kiểm soát thông qua các giao thức hoặc kênh truyền thông mạng. Hoạt động này có thể lợi dụng nhiều network protocols/channels khác nhau, khiến việc giám sát và phát hiện trở nên khó khăn nếu không có cơ chế kiểm soát phù hợp.
 
-Dự án xây dựng một phòng thí nghiệm mạng ảo cô lập nhằm nghiên cứu, giả lập và phân tích một số kỹ thuật Data Exfiltration tiêu biểu. Phạm vi thực nghiệm tập trung vào ba phương thức: HTTP POST-based Exfiltration, DNS Tunneling-based Exfiltration và FTP-based Exfiltration. Toàn bộ quá trình sử dụng dữ liệu tổng hợp và chỉ diễn ra giữa các máy trong môi trường lab được kiểm soát.
+Dự án xây dựng một phòng thí nghiệm mạng ảo cô lập nhằm nghiên cứu, giả lập và phân tích một số kỹ thuật Data Exfiltration tiêu biểu. Phạm vi thực nghiệm tập trung vào ba phương thức: HTTP POST-based Exfiltration, DNS Tunneling-based Exfiltration và FTP Upload-based Exfiltration. Toàn bộ quá trình sử dụng dữ liệu tổng hợp và chỉ diễn ra giữa các máy trong môi trường lab được kiểm soát.
 
 Mục tiêu cụ thể:
 
 - Nghiên cứu nguyên lý hoạt động và đặc điểm của các kỹ thuật Data Exfiltration qua Network.
-- Xây dựng môi trường lab gồm Internal Network, Victim và External Server.
+- Xây dựng môi trường lab gồm Windows Host ngoài lab, Ubuntu Victim, Kali Linux Gateway/Monitoring và SEED Ubuntu External Server nằm trong segment server lab thứ hai (không phải Internet).
 - Thực hiện controlled data exfiltration với dữ liệu giả lập thông qua tối thiểu ba network channels.
 - Thu thập PCAP và network logs bằng tcpdump, Wireshark và Zeek khi môi trường hỗ trợ.
-- Phân tích và so sánh các channels theo throughput, packet/flow characteristics, frequency và mức độ quan sát được.
+- Phân tích và so sánh application payload throughput và captured network throughput, packet/flow characteristics, frequency và mức độ quan sát được theo cùng kích thước dữ liệu và điều kiện thử nghiệm phù hợp.
 - Đề xuất và thực nghiệm một số biện pháp hạn chế Data Exfiltration như Firewall, DNS Filtering và giám sát lưu lượng mạng.
 - Ghi nhận quy trình, kết quả và điều kiện thử nghiệm để bảo đảm khả năng tái lập.
 
@@ -28,9 +28,9 @@ Mục tiêu cụ thể:
 - Nghiên cứu và giả lập ba phương thức Data Exfiltration:
   - **HTTP POST-based Exfiltration:** Truyền dữ liệu giả lập thông qua HTTP POST request đến máy chủ lab.
   - **DNS Tunneling-based Exfiltration:** Mô phỏng việc truyền dữ liệu thông qua các DNS query đến DNS server được kiểm soát trong lab.
-  - **FTP-based Exfiltration:** Truyền tệp dữ liệu giả lập từ Victim đến FTP Server trong môi trường thử nghiệm.
+  - **FTP Upload-based Exfiltration:** Tải tệp dữ liệu tổng hợp từ Victim lên FTP Server trong môi trường thử nghiệm.
 - Thực hiện packet capture và phân tích traffic bằng tcpdump, Wireshark; sử dụng Zeek để trích xuất network logs khi khả dụng.
-- Phân tích thống kê, throughput, packet/flow characteristics, frequency và mức độ quan sát được của từng channel.
+- Phân tích application payload bytes và captured network bytes riêng biệt, throughput, packet/flow characteristics, frequency và mức độ quan sát được (observability) của từng phương thức.
 - Thử nghiệm một số biện pháp hạn chế và phát hiện Data Exfiltration trong môi trường lab.
 - Chỉ sử dụng dữ liệu tổng hợp, không chứa thông tin cá nhân, bí mật hoặc thông tin đăng nhập thật.
 
@@ -66,10 +66,10 @@ Các công nghệ và công cụ dự kiến:
 ## 5. Sản phẩm dự kiến
 
 - Bộ khung mã nguồn và tài liệu hướng dẫn xây dựng môi trường lab.
-- Ba mô hình giả lập Data Exfiltration qua HTTP, DNS và FTP.
+- Ba mô hình giả lập: HTTP POST-based Exfiltration, DNS Tunneling-based Exfiltration và FTP Upload-based Exfiltration.
 - Bộ PCAP và network logs được thu thập tương ứng với từng phương thức.
 - Quy trình phân tích và các script Python phục vụ tính toán metrics.
-- Bảng so sánh các channels theo throughput, packet/flow characteristics, frequency và mức độ quan sát được.
+- Bảng so sánh application payload throughput và captured network throughput, packet/flow characteristics, frequency và mức độ quan sát được của ba phương thức.
 - Kết quả thực nghiệm các biện pháp hạn chế Data Exfiltration, có đối chiếu trước và sau khi áp dụng.
 - Báo cáo tổng kết và slide thuyết trình.
 

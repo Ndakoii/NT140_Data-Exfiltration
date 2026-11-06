@@ -1,20 +1,22 @@
 # NT140 - Data Exfiltration over Network
 
-Du an hoc tap NT140 nghien cuu dac diem luu luong cua cac mo phong truyen du lieu qua HTTP, DNS va FTP trong phong thi nghiem VirtualBox co lap. Moi du lieu dung trong thi nghiem phai la du lieu tong hop; khong ket noi den he thong hoac mang cua ben thu ba.
+**Đề tài 06 – Nghiên cứu và giả lập các kỹ thuật Data Exfiltration qua Network.**
 
-> **Pham vi an toan:** Day la de cuong va bo khung tai lieu. Moi mo phong trong cac giai doan sau phai chi giao tiep voi may chu/resolver phong thi nghiem da cau hinh. Khong su dung du lieu that, thong tin dang nhap that, ky thuat an minh, duy tri truy cap, vuot co che bao ve hoac truy cap trai phep.
+Dự án nghiên cứu và giả lập ba phương thức trong phòng thí nghiệm VirtualBox cô lập: **HTTP POST-based Exfiltration**, **DNS Tunneling-based Exfiltration** và **FTP Upload-based Exfiltration**. Mọi dữ liệu dùng trong thử nghiệm phải là dữ liệu tổng hợp; không kết nối đến hệ thống hoặc mạng của bên thứ ba.
+
+> **Phạm vi an toàn:** Đây là đề cương và bộ khung tài liệu. Mọi thử nghiệm ở các giai đoạn sau chỉ được giao tiếp với máy chủ/resolver phòng thí nghiệm đã cấu hình. Không sử dụng dữ liệu thật, thông tin đăng nhập thật, kỹ thuật ẩn mình, duy trì truy cập, vượt cơ chế bảo vệ hoặc truy cập trái phép.
 
 ## Muc tieu
 
-- Mo ta va so sanh luu luong mo phong HTTP, DNS va FTP trong moi truong duoc uy quyen.
-- Ghi nhan goi tin va luong mang bang tcpdump/Wireshark; nghien cuu log Zeek khi da cai dat.
-- Phan tich kich thuoc, tan suat, thong luong va dac diem goi/luong.
-- Thu nghiem bien phap phong thu nhu quy tac firewall va loc DNS trong mang lab.
-- Ghi lai cau hinh, phuong phap, ket qua va gioi han de co the lap lai.
+- Mô tả và so sánh traffic của ba phương thức thử nghiệm trong môi trường được ủy quyền.
+- Ghi nhận packet và flow bằng tcpdump/Wireshark; phân tích log Zeek khi môi trường hỗ trợ.
+- Phân tích application payload bytes, captured network bytes, throughput, packet/flow characteristics, frequency và observability.
+- Thử nghiệm biện pháp phòng thủ như firewall và DNS filtering trong lab; ghi nhận kết quả trước và sau khi áp dụng.
+- Ghi lại cấu hình, phương pháp, bằng chứng và giới hạn để có thể tái lập; chỉ báo cáo kết quả khi có bằng chứng thực nghiệm.
 
 ## Trang thai giai doan
 
-**Phase 1 - Khoi tao tai lieu va bo khung thu muc.** Dia chi mang trong tai lieu la de xuat, chua duoc xac nhan tren VirtualBox. Chua co ma mo phong, cau hinh may ao, bo du lieu, ket qua do, hay phan mem phan tich duoc cai dat boi kho ma nay.
+**Phase 1 - Khởi tạo tài liệu và bộ khung thư mục.** Địa chỉ mạng trong tài liệu là đề xuất, chưa được xác nhận trên VirtualBox. Chưa có mã mô phỏng, cấu hình máy ảo, bộ dữ liệu hay kết quả đo. Không tài liệu nào trong repo hiện báo cáo kết quả thử nghiệm đã thực hiện.
 
 ## Kien truc de xuat
 
@@ -23,9 +25,15 @@ Du an hoc tap NT140 nghien cuu dac diem luu luong cua cac mo phong truyen du lie
 | Windows Host | Phat trien, quan ly ma nguon va dieu khien VirtualBox | Khong gan dia chi lab trong tai lieu nay |
 | Ubuntu Victim | May nguon du lieu tong hop va client mo phong | Mang noi bo: `10.10.10.10/24`; gateway du kien: `10.10.10.1` |
 | Kali Linux | Gateway giua hai mang lab, giam sat va thu thap luu luong | Interface noi bo: `10.10.10.1/24`; interface mang server: `10.10.20.1/24` |
-| SEED Ubuntu External Server | May chu dich vu thu nghiem HTTP/DNS/FTP | Mang server lab: `10.10.20.10/24`; gateway du kien: `10.10.20.1` |
+| SEED Ubuntu External Server | Máy nhận trong lab, cung cấp HTTP Server, DNS Server/Resolver do nhóm kiểm soát và FTP Server | Mạng server lab: `10.10.20.10/24`; gateway dự kiến: `10.10.20.1` |
 
-Day la **mang lab ben ngoai** cua mo hinh, khong phai Internet. Thiet ke VirtualBox, dinh tuyen va cac dia chi deu la de xuat, can duoc kiem tra truoc khi trien khai. Xem [kien truc](docs/architecture.md).
+Mạng `10.10.10.0/24` là mạng nội bộ của Victim; `10.10.20.0/24` là segment server lab thứ hai bên trong VirtualBox, **không phải Internet**. Windows Host nằm ngoài các segment lab. Thiết kế VirtualBox, định tuyến và địa chỉ đều là đề xuất, cần được kiểm tra trước khi triển khai. Kali chỉ quan sát traffic đi qua interface đang capture; muốn quan sát cả hai chiều cần xác minh route hai chiều. Xem [kiến trúc](docs/architecture.md).
+
+## Phạm vi thử nghiệm
+
+1. **HTTP POST-based Exfiltration:** truyền dữ liệu tổng hợp bằng HTTP POST đến HTTP Server trong lab.
+2. **DNS Tunneling-based Exfiltration:** nghiên cứu traffic truyền dữ liệu qua DNS trong zone và DNS Server/Resolver do nhóm kiểm soát.
+3. **FTP Upload-based Exfiltration:** tải tệp dữ liệu tổng hợp từ Victim lên FTP Server trong lab.
 
 ## Cau truc kho ma
 
