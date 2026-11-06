@@ -218,3 +218,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local lab secrets and environment-specific configuration
+.env.*
+!.env.example
+secrets/
+*.secret
+
+# Packet captures and VirtualBox disk images
+*.pcap
+*.pcapng
+*.vdi
+*.vmdk
+*.vhd
+*.vhdx
+*.hdd
+*.ova
